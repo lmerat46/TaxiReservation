@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Taxi reservation</title>
+    <link rel="stylesheet" href="clientChauffeur.css" />
+</head>
+
+<body>
+    <form method="POST" action="http://localhost:8080">
+        Category: <br>
+        <input type="radio" name="category" value="client">client<br>
+        <input type="radio" name="category" value="driver">driver<br><br>
+        Lastname: <br>
+        <input type="text" name="lastname"><br>
+        Firstname: <br>
+        <input type="text" name="firstname"><br>
+        Birthday: <br>
+        <input type="date" name="birthday"><br>
+        Mail: <br>
+        <input type="email" name="mail"><br>
+        Phone number: <br>
+        <input type="tel" name="phone"><br><br>
+        Pseudo: <br>
+        <input type="text" name="pseudo"><br>
+        Password: <br>
+        <input type="password" name="password"><br>
+        <input type="submit" name="Submit">
+    </form>
+</body>
+
+</html>

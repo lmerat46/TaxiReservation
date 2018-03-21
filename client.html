@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Taxi reservation</title>
+    <link rel="stylesheet" href="clientChauffeur.css" />
+</head>
+
+<body>
+    <form method="POST" action="http://localhost:8080/loginClient">
+        Departure: <br>
+        <input type="text" name="departure" id='departure'><br>
+        Destination: <br>
+        <input type="text" name="destination" id='destination'><br><br>
+        Type of reservation: <br>
+        <input type="radio" name="typeOfReservation" value="now">Now<br>
+        <input type="radio" name="typeOfReservation" value="later">Later<br>
+        Date:<br>
+        <input type="date" name="date"><br>
+        Hour:<br>
+        <input type="time" name="time"><br>
+        <input type="submit" name="Submit">
+    </form>
+</body>
+
+</html>
