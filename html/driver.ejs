@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Taxi reservation</title>
-    <link rel="stylesheet" href="clientChauffeur.css" />
+    <link rel="stylesheet" href="/clientChauffeur.css"/>
 </head>
 
-<body>
+<body method="get" action="http://localhost:8080/driver">
         <h2>Bonjour <%= v_nom %></h2>
+        <p>
+            <ul> <%= em%> </ul>
+        </p>
 </body>
 <footer>
     <p>© 2018, LAURE MERAT</p>

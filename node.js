@@ -17,7 +17,7 @@ serv.use(body.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-serv.set('view engine', 'ejs');
+serv.set('view engine', 'jade');
 
 console.log(__dirname + '/html');
 //serv.use(express.static(__dirname + '/html'));
@@ -46,7 +46,11 @@ serv.get('/',function(req, res) {
     });
 });
 
-serv.post('/home', function(req, res) {
+
+/**
+ * sign in or sign up
+ */
+serv.post('/login', function(req, res) {
     var connexion = req.body.connexion;
     var inscription = req.body.inscription;
     if(new String(inscription).valueOf() == "inscription".valueOf()) res.render(__dirname+'/html/createAccount.ejs');
@@ -83,14 +87,14 @@ serv.post('/createAccount', function(req, res) {
 /**
  * check login
  */
-serv.post('/login', function(req,res){
+serv.post('/home', function(req,res){
     var pseudo = req.body.pseudo;
     var password = req.body.password;
     connexion.query("SELECT pseudo FROM client WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err,rows){
         if(rows[0] == undefined){
             connexion.query("SELECT pseudo FROM driver WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err1,rows1){
                 if(err) throw err;
-                else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo});
+                else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo, em: 'vide'});
             });
 
         }else res.render(__dirname+'/html/client.ejs', {v_nom : pseudo});
@@ -124,7 +128,7 @@ serv.post('/reservation', function(req,res){
  * associate a reservation to a driver
  * A TESTER
  */
-serv.post('/driver', function(req,res){
+serv.post('/driver2', function(req,res){
     var id_driver = req.body.id_driver;
     connexion.query("SELECT * FROM driver where id_driver = '"+id_driver+"')", function(err, rows){
         var i = 0;
@@ -139,6 +143,11 @@ serv.post('/driver', function(req,res){
 /**
  * driver accepts a reservation
  */
-serv.post('/accept', function(res, req){
-    
+serv.get('/login2', function(res, req){
+    connexion.query("SELECT*FROM reservation WHERE finish = 0", function(err,rows){
+        rows.forEach(function(element) {
+            res.render(__dirname+'/html/driver.ejs',{em: '<li> "element.departure"   "element.destination"   "element.hour"   "element.day"   "element.id_reservation" </li>'});
+        });
+    });
+    res.render(__dirname+'/html/driver.ejs',{em: 'vide'});
 });
