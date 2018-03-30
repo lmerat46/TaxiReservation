@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 
-<body method="get" action="http://localhost:8080/driver">
+<body>
         <h2>Bonjour <%= v_nom %></h2>
         <table border="1" cellpadding="7" cellspacing="7">
             <tr>
@@ -24,7 +24,7 @@
                 <td><%=data[i].destination%></td>
                 <td><%=data[i].day%></td>
                 <td><%=data[i].hour%></td>
-                <td><input type="submit" value="<%=data[i].id_reservation%>"></a></td>
+                <td><form method="post" action="http://localhost:8080/driver"><input type="submit" name="resa" value="<%=data[i].id_reservation%>"></a></form></td>
             </tr>
             <% }
             }else{ %>

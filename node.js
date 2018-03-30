@@ -78,19 +78,31 @@ serv.post('/createAccount', function(req, res) {
         connexion.query("INSERT INTO driver (lastname, firstname, birthday, mail, phone, pseudo, passwd) VALUES ?", [data]);
         connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
             if(err) throw err;
-            else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows});
+            else{
+                connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+req.body.pseudo+"'",function(err1,rows1){
+                    if(err1) throw err1;
+                    else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows, data2: rows1});
+                });
+            }
         });
     }else{
         connexion.query("INSERT INTO client (lastname, firstname, birthday, mail, phone, pseudo, passwd) VALUES ?", [data]);
-        res.render(__dirname+"/html/client.ejs",{v_nom: req.body.pseudo});
+        connexion.query("SELECT*FROM reservation,driver WHERE id_client = (SELECT id_client FROM client WHERE pseudo = '"+cookie[0][5]+"') and reservation.id_driver = driver.id_driver",function(err,rows){
+            if(err) throw err;
+            else{
+                res.render(__dirname+'/html/client.ejs', {v_nom : req.body.pseudo, data: rows});
+            }
+        });
     }
 });
 
 
 /**
  * check login
+ * and display the right home page
  */
 serv.post('/home', function(req,res){
+    cookie = req.body.pseudo;
     var pseudo = req.body.pseudo;
     var password = req.body.password;
     connexion.query("SELECT pseudo FROM client WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err,rows){
@@ -107,12 +119,18 @@ serv.post('/home', function(req,res){
                             });
                             
                         }
-                    });
-                    
+                    });   
                 }
             });
 
-        }else res.render(__dirname+'/html/client.ejs', {v_nom : pseudo});
+        }else{
+            connexion.query("SELECT*FROM reservation,driver WHERE id_client = (SELECT id_client FROM client WHERE pseudo = '"+pseudo+"') and reservation.id_driver = driver.id_driver",function(err,rows){
+                if(err) throw err;
+                else{
+                    res.render(__dirname+'/html/client.ejs', {v_nom : pseudo, data: rows});
+                }
+            });
+        }
     });
 });
 
@@ -134,7 +152,12 @@ serv.post('/reservation', function(req,res){
             connexion.query("INSERT INTO reservation (day, hour, departure, destination, id_client) VALUES ('"+date+"', '"+time+"', '"+departure+"', '"+destination+"', '"+rows[0].id_client+"')");
         }
     });
-    res.render(__dirname+'/html/client.ejs', {v_nom : cookie[0][5]});
+    connexion.query("SELECT*FROM reservation,driver WHERE id_client = (SELECT id_client FROM client WHERE pseudo = '"+cookie[0][5]+"') and reservation.id_driver = driver.id_driver",function(err,rows){
+        if(err) throw err;
+        else{
+            res.render(__dirname+'/html/client.ejs', {v_nom : cookie[0][5], data: rows});
+        }
+    });
 });
 
   serv.listen(8080);
@@ -143,14 +166,20 @@ serv.post('/reservation', function(req,res){
  * associate a reservation to a driver
  * A TESTER WILL MAKE SHIT AT 100% SURE
  */
-serv.post('/driver2', function(req,res){
-    var id_driver = req.body.id_driver;
-    connexion.query("SELECT * FROM driver where id_driver = '"+id_driver+"')", function(err, rows){
-        var i = 0;
-        while(rows[i]){
-            res.render('html/driver.ejs', 
-            {item : '<li>day rows[i].day, departure rows[i].departure, destination rows[i].destination<li>'});
-            i++;
+serv.post('/driver', function(req,res){
+    var resa = req.body.resa
+    connexion.query("UPDATE reservation SET finish = '"+1+"',id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"') WHERE id_reservation = '"+resa+"'", function(err, rows){
+        if(err) throw err;
+        else{
+            connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
+                if(err) throw err;
+                else{
+                    connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+cookie+"'",function(err1,rows1){
+                        if(err1) throw err1;
+                        else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows, data2: rows1});
+                    });
+                }
+            });
         }
     });
 });

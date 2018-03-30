@@ -34,6 +34,31 @@
         <br>
         <input type="submit" name="Submit">
     </form>
+    <br>
+    <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+                <th>Departure</th>
+                <th>Destination</th>
+                <th>Day</th>
+                <th>Hour</th>
+                <th>Chauffeur</th>
+            </tr>
+            <% if(data.length){ 
+                for(var i = 0;i < data.length;i++) { %>
+            <tr>
+                <td><%=data[i].departure%></td>
+                <td><%=data[i].destination%></td>
+                <td><%=data[i].day%></td>
+                <td><%=data[i].hour%></td>
+                <td><%=data[i].pseudo%></td>
+            </tr>
+            <% }
+            }else{ %>
+                <tr>
+                    <td colspan="6">No user</td>
+                </tr>
+            <% } %>
+        </table>
 </body>
 <footer>
         <p>© 2018, LAURE MERAT</p>
