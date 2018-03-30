@@ -12,6 +12,9 @@
         <h1>Taxi Reservation</h1>
     </div>
     <h2>Bonjour <%= v_nom %></h2>
+    <form method="post" action="http://localhost:8080/profil">
+            <input type="submit" value="profil">
+        </form>
     <form method="POST" action="http://localhost:8080/reservation">
         Departure:
         <br>
@@ -56,7 +59,7 @@
             <% }
             }else{ %>
                 <tr>
-                    <td colspan="6">No user</td>
+                    <td colspan="6">No data</td>
                 </tr>
             <% } %>
         </table>

@@ -77,7 +77,7 @@ serv.post('/createAccount', function(req, res) {
         connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
             if(err) throw err;
             else{
-                connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+req.body.pseudo+"'",function(err1,rows1){
+                connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+req.body.pseudo+"')",function(err1,rows1){
                     if(err1) throw err1;
                     else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows, data2: rows1});
                 });
@@ -106,14 +106,13 @@ serv.post('/home', function(req,res){
     connexion.query("SELECT pseudo FROM client WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err,rows){
         if(rows[0] == undefined){
             connexion.query("SELECT pseudo FROM driver WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err1,rows1){
-                console.log(rows1);
                 if(rows1[0] == undefined){
                     res.render(__dirname+'/html/login.ejs');
                 }else{
                     connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
                         if(err) throw err;
                         else{
-                            connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+pseudo+"'",function(err1,rows1){
+                            connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+pseudo+"')",function(err1,rows1){
                                 if(err1) throw err1;
                                 else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo, data: rows, data2: rows1});
                             });
@@ -149,7 +148,7 @@ serv.post('/driverf', function(req, res){
     connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
         if(err) throw err;
         else{
-            connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+cookie+"'",function(err1,rows1){
+            connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"')",function(err1,rows1){
                 if(err1) throw err1;
                 else res.render(__dirname+'/html/driver.ejs', {v_nom : cookie, data: rows, data2: rows1});
             });
@@ -197,7 +196,7 @@ serv.post('/driver', function(req,res){
             connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
                 if(err) throw err;
                 else{
-                    connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+cookie+"'",function(err1,rows1){
+                    connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"')",function(err1,rows1){
                         if(err1) throw err1;
                         else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows, data2: rows1});
                     });
@@ -205,4 +204,60 @@ serv.post('/driver', function(req,res){
             });
         }
     });
+});
+
+serv.post('/profil', function(req,res){
+    var client = req.body.client;
+    var driver = req.body.driver;
+    if(client == undefined) var query = "SELECT*from driver WHERE pseudo = '"+cookie+"'";
+    else var query = "SELECT*from  WHERE pseudo = '"+cookie+"'";
+    connexion.query(query,function(err,rows){
+        if(err) throw err;
+        else{
+            res.render(__dirname+'/html/profil.ejs',{data: rows[0]})
+        }
+    });
+});
+
+serv.post('/modify', function(req,res){
+    var lastname = req.body.lastname;
+    var firstname = req.body.firstname;
+    var birthday = req.body.birthday;
+    var mail = req.body.mail;
+    var phone = req.body.phone;
+    var pseudo = req.body.pseudo;
+    var passwd = req.body.password;
+
+    var passwdConf = req.body.passwordConf;
+
+
+    connexion.query("SELECT *FROM client WHERE pseudo = '"+cookie+"'",function(err,rows){
+        if(rows[0] == undefined){
+            if(passwd == passwdConf){
+                var query = "UPDATE driver SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"', pseudo = '"+pseudo+"', passwd = '"+passwd+"' WHERE pseudo = '"+cookie+"'";
+                connexion.query(query);
+            }
+            connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
+                if(err) throw err;
+                else{
+                    connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+pseudo+"')",function(err1,rows1){
+                        if(err1) throw err1;
+                        else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo, data: rows, data2: rows1});
+                    }); 
+                }
+            });
+        }else{
+            if(passwd == passwdConf){
+                var query = "UPDATE client SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"', pseudo = '"+pseudo+"', passwd = '"+passwd+"' WHERE pseudo = '"+cookie+"'";
+                connexion.query(query);
+            }
+            connexion.query("SELECT*FROM reservation,driver WHERE id_client = (SELECT id_client FROM client WHERE pseudo = '"+pseudo+"') and reservation.id_driver = driver.id_driver",function(err,rows){
+                if(err) throw err;
+                else{
+                    res.render(__dirname+'/html/client.ejs', {v_nom : pseudo, data: rows});
+                }
+            });
+        }
+    });
+    cookie = pseudo;
 });
