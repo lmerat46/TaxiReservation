@@ -51,12 +51,12 @@ serv.get('/',function(req, res) {
  * sign in or sign up
  */
 serv.post('/login', function(req, res) {
-    var connexion = req.body.connexion;
-    var inscription = req.body.inscription;
-    if(new String(inscription).valueOf() == "inscription".valueOf()) res.render(__dirname+'/html/createAccount.ejs');
-    else if(new String(connexion).valueOf() == "connexion".valueOf())res.render(__dirname+'/html/login.ejs');
-    else res.send("Failure in load");
+    res.render(__dirname+'/html/login.ejs');
   });
+
+serv.post('/signUp', function(req,res){
+    res.render(__dirname+'/html/createAccount.ejs');
+});
 
 
 /**
@@ -76,7 +76,10 @@ serv.post('/createAccount', function(req, res) {
 
     if(req.body.category == "driver"){
         connexion.query("INSERT INTO driver (lastname, firstname, birthday, mail, phone, pseudo, passwd) VALUES ?", [data]);
-        res.render(__dirname+'/html/driver.ejs', {v_nom: req.body.pseudo});
+        connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
+            if(err) throw err;
+            else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows});
+        });
     }else{
         connexion.query("INSERT INTO client (lastname, firstname, birthday, mail, phone, pseudo, passwd) VALUES ?", [data]);
         res.render(__dirname+"/html/client.ejs",{v_nom: req.body.pseudo});
@@ -94,7 +97,19 @@ serv.post('/home', function(req,res){
         if(rows[0] == undefined){
             connexion.query("SELECT pseudo FROM driver WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err1,rows1){
                 if(err) throw err;
-                else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo, em: 'vide'});
+                else{
+                    connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
+                        if(err) throw err;
+                        else{
+                            connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+pseudo+"'",function(err1,rows1){
+                                if(err1) throw err1;
+                                else res.render(__dirname+'/html/driver.ejs', {v_nom : pseudo, data: rows, data2: rows1});
+                            });
+                            
+                        }
+                    });
+                    
+                }
             });
 
         }else res.render(__dirname+'/html/client.ejs', {v_nom : pseudo});
@@ -126,7 +141,7 @@ serv.post('/reservation', function(req,res){
 
 /**
  * associate a reservation to a driver
- * A TESTER
+ * A TESTER WILL MAKE SHIT AT 100% SURE
  */
 serv.post('/driver2', function(req,res){
     var id_driver = req.body.id_driver;
@@ -138,16 +153,4 @@ serv.post('/driver2', function(req,res){
             i++;
         }
     });
-});
-
-/**
- * driver accepts a reservation
- */
-serv.get('/login2', function(res, req){
-    connexion.query("SELECT*FROM reservation WHERE finish = 0", function(err,rows){
-        rows.forEach(function(element) {
-            res.render(__dirname+'/html/driver.ejs',{em: '<li> "element.departure"   "element.destination"   "element.hour"   "element.day"   "element.id_reservation" </li>'});
-        });
-    });
-    res.render(__dirname+'/html/driver.ejs',{em: 'vide'});
 });

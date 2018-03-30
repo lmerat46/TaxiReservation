@@ -4,14 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Taxi reservation</title>
-    <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 
 <body method="get" action="http://localhost:8080/driver">
         <h2>Bonjour <%= v_nom %></h2>
-        <p>
-            <ul> <%= em%> </ul>
-        </p>
+        <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+                <th>Departure</th>
+                <th>Destination</th>
+                <th>Day</th>
+                <th>Hour</th>
+                <th>id_reservation</th>
+            </tr>
+            <% if(data.length){ 
+                for(var i = 0;i < data.length;i++) { %>
+            <tr>
+                <td><%=data[i].departure%></td>
+                <td><%=data[i].destination%></td>
+                <td><%=data[i].day%></td>
+                <td><%=data[i].hour%></td>
+                <td><input type="submit" value="<%=data[i].id_reservation%>"></a></td>
+            </tr>
+            <% }
+            }else{ %>
+                <tr>
+                    <td colspan="5">No user</td>
+                </tr>
+            <% } %>
+        </table>
+        <h3>Reservation done</h3>
+        <table border="1" cellpadding="10" cellspacing="5">
+            <tr>
+                <th>Departure</th>
+                <th>Destination</th>
+                <th>Day</th>
+                <th>Hour</th>
+            </tr>
+            <% if(data2.length){ 
+                for(var i = 0;i < data2.length;i++) { %>
+                <tr>
+                <td><%=data2[i].departure%></td>
+                <td><%=data2[i].destination%></td>
+                <td><%=data2[i].day%></td>
+                <td><%=data2[i].hour%></td>
+            </tr>
+            <% }
+            }else{ %>
+                <tr>
+                    <td colspan="5">No user</td>
+                </tr>
+            <% } %>
+        </table>
 </body>
 <footer>
     <p>© 2018, LAURE MERAT</p>
