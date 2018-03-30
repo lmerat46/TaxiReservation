@@ -19,8 +19,6 @@ serv.use(body.urlencoded({     // to support URL-encoded bodies
 
 serv.set('view engine', 'jade');
 
-console.log(__dirname + '/html');
-//serv.use(express.static(__dirname + '/html'));
 
 /**
  * connection to database
@@ -108,8 +106,10 @@ serv.post('/home', function(req,res){
     connexion.query("SELECT pseudo FROM client WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err,rows){
         if(rows[0] == undefined){
             connexion.query("SELECT pseudo FROM driver WHERE pseudo = '"+pseudo+"' and passwd = '"+password+"'", function(err1,rows1){
-                if(err) throw err;
-                else{
+                console.log(rows1);
+                if(rows1[0] == undefined){
+                    res.render(__dirname+'/html/login.ejs');
+                }else{
                     connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
                         if(err) throw err;
                         else{
