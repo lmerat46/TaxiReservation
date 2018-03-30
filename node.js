@@ -135,6 +135,29 @@ serv.post('/home', function(req,res){
 });
 
 /**
+ * driver free or not?
+ */
+serv.post('/driverf', function(req, res){
+    var choice = req.body.choice
+    console.log(choice);
+    console.log(cookie);
+    if(choice == "yes"){
+        connexion.query("UPDATE driver SET free = '"+1+"' WHERE pseudo='"+cookie+"'");
+    }else if(choice == "no"){
+        connexion.query("UPDATE driver SET free = '"+0+"' WHERE pseudo='"+cookie+"'");
+    }
+    connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
+        if(err) throw err;
+        else{
+            connexion.query("SELECT*FROM reservation,driver WHERE finish = '"+1+"' and pseudo = '"+cookie+"'",function(err1,rows1){
+                if(err1) throw err1;
+                else res.render(__dirname+'/html/driver.ejs', {v_nom : cookie, data: rows, data2: rows1});
+            });
+        }
+    });
+});
+
+/**
  * save a new reservation
  */
 serv.post('/reservation', function(req,res){

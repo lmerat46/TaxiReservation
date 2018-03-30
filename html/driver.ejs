@@ -9,6 +9,11 @@
 
 <body>
         <h2>Bonjour <%= v_nom %></h2>
+        <form method="post" action="http://localhost:8080/driverf">
+            Are you free?<br>
+            <input type="submit" value="yes" name="choice">
+            <input type="submit" value="no" name="choice">
+        </form>
         <table border="1" cellpadding="7" cellspacing="7">
             <tr>
                 <th>Departure</th>
