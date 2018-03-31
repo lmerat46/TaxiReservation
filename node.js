@@ -133,6 +133,13 @@ serv.post('/home', function(req,res){
     });
 });
 
+serv.post('/accueil',function(req,res){
+    if(req.body.disconnect == "disconnect"){
+        res.render(__dirname+'/html/home.ejs');
+        cookie = null;
+    }
+});
+
 /**
  * driver free or not?
  */

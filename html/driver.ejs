@@ -9,7 +9,9 @@
 
 <body>
         <header>
-        <a href="home.ejs">deconnexion</a>
+        <form method="post" action="http://localhost:8080/accueil">
+            <button value="disconnect" name="disconnect">deconnexion</button>
+        </form>
         </header>
         <h2>Bonjour <%= v_nom %></h2>
         <form method="post" action="http://localhost:8080/profil">
