@@ -133,6 +133,9 @@ serv.post('/home', function(req,res){
     });
 });
 
+/**
+ * disconnect client or driver when button for deconnexion is pressed
+ */
 serv.post('/accueil',function(req,res){
     if(req.body.disconnect == "disconnect"){
         res.render(__dirname+'/html/home.ejs');
@@ -193,10 +196,10 @@ serv.post('/reservation', function(req,res){
 
 /**
  * associate a reservation to a driver
- * A TESTER WILL MAKE SHIT AT 100% SURE
  */
 serv.post('/driver', function(req,res){
     var resa = req.body.resa
+    connexion.query("UPDATE driver SET free = '"+0+"' WHERE pseudo = '"+cookie+"'");
     connexion.query("UPDATE reservation SET finish = '"+1+"',id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"') WHERE id_reservation = '"+resa+"'", function(err, rows){
         if(err) throw err;
         else{
@@ -205,7 +208,7 @@ serv.post('/driver', function(req,res){
                 else{
                     connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"')",function(err1,rows1){
                         if(err1) throw err1;
-                        else res.render(__dirname+'/html/driver.ejs', {v_nom : req.body.pseudo, data: rows, data2: rows1});
+                        else res.render(__dirname+'/html/driver.ejs', {v_nom : cookie, data: rows, data2: rows1});
                     });
                 }
             });
