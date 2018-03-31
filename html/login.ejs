@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Taxi reservation</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
 </head>
 
 <body>
+  <header><h1>Name</h1></header>
     <h1>Connexion</h1>
     <form method="post" action="http://localhost:8080/home">
-        Pseudo:
         <br>
-        <input type="text" name="pseudo">
-        <br> Password:
+        <div id="whatever">
+        <input type="text" name="pseudo" placeholder="Pseudo...">
         <br>
-        <input type="password" name="password">
+        <input type="password" name="password" placeholder="Password...">
         <br>
+      </div>
         <input type="submit" name="connect">
         <br>
     </form>
