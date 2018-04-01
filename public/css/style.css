@@ -45,11 +45,35 @@ footer p {
   font-weight: bold;
 }
 
+#whatever {
+  margin: 2% 0 6%;
+}
+
+input {
+  position: relative;
+  left: 25%;
+  width: 50%;
+  padding: 2% 20px 2%;
+  margin: 8px 20px;
+  /*display: inline-block;*/
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 25px sans-serif;
+  text-align: center;
+}
+
+input:focus {
+  border: 0;
+  outline: none;
+  border-bottom: 4px solid #C5D3E5;
+}
+
 input[type=submit] {
+  text-align: center;
   background-color: #312F2F;
   color : white;
   border-radius: 7px;
-  position: relative;
   left: 35%;
   width: 30%;
   height: 100px;
