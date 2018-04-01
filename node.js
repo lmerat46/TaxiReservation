@@ -17,8 +17,17 @@ serv.use(body.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-serv.set('view engine', 'jade');
+serv.set('view engine', 'ejs');
+//serv.use(express.static('public'));
+serv.use(express.static(__dirname + '/public'));
 
+
+/*
+serv.use(express.static('views'));
+serv.use(express.static('public/images'));
+serv.use(express.static('public/css'));
+serv.use(express.static('public/js'));
+*/
 
 /**
  * connection to database
@@ -37,7 +46,8 @@ connexion.connect();
  * affiche home page
  */
 serv.get('/',function(req, res) {
-    m.readFile('html/home.ejs',function(erreur,donnees){
+    console.log(__dirname);
+    m.readFile(__dirname+'/views/home.ejs',function(erreur,donnees){
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(donnees);
         res.end();
