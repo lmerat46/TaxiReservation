@@ -188,8 +188,6 @@ serv.post('/accueil',function(req,res){
  */
 serv.post('/driverf', function(req, res){
     var choice = req.body.choice
-    console.log(choice);
-    console.log(cookie);
     if(choice == "yes"){
         connexion.query("UPDATE driver SET free = '"+1+"' WHERE pseudo='"+cookie[0][5]+"'");
     }else if(choice == "no"){
@@ -254,11 +252,12 @@ serv.post('/driver', function(req,res){
     });
 });
 
+/**
+ * display the profil
+ */
 serv.post('/profil', function(req,res){
     var client = req.body.client;
     var driver = req.body.driver;
-    console.log(client);
-    console.log(cookie);
     if(client == undefined) var query = "SELECT*FROM driver WHERE pseudo = '"+cookie[0][5]+"'";
     else var query = "SELECT*FROM client WHERE pseudo = '"+cookie[0][5]+"'";
     connexion.query(query,function(err,rows){
@@ -283,7 +282,6 @@ serv.post('/modify', function(req,res){
     var passwdConf = req.body.passwordConf;
 
     if(req.body.submit == "cancel"){
-        console.log("test");
         var query = "SELECT*FROM client WHERE lastname = '"+lastname+"' and firstname = '"+firstname+"' AND birthday = '"+birthday+"' AND mail = '"+mail+"' AND phone = '"+phone+"'";
         connexion.query(query,function(err,rows){
             if(rows[0] == undefined){
@@ -306,10 +304,12 @@ serv.post('/modify', function(req,res){
             }
         });
     }else{
-        console.log(cookie);
         connexion.query("SELECT*FROM client WHERE pseudo = '"+cookie[0][5]+"'",function(err,rows){
             if(rows.length <= 0){
-                if(passwd == passwdConf){
+                if(passwd == "" && passwdConf == ""){
+                    var query = "UPDATE driver SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"' WHERE pseudo = '"+cookie[0][5]+"'";
+                    connexion.query(query);
+                }else if(passwd == passwdConf){
                     var query = "UPDATE driver SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"', passwd = '"+passwd+"' WHERE pseudo = '"+cookie[0][5]+"'";
                     connexion.query(query);
                 }else{
@@ -326,7 +326,10 @@ serv.post('/modify', function(req,res){
                     }
                 });
             }else{
-                if(passwd == passwdConf){
+                if(passwd == "" && passwdConf == ""){
+                    var query = "UPDATE client SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"' WHERE pseudo = '"+cookie[0][5]+"'";
+                    connexion.query(query);
+                }else if(passwd == passwdConf){
                     var query = "UPDATE client SET lastname = '"+lastname+"', firstname = '"+firstname+"',birthday = '"+birthday+"', phone = '"+phone+"', mail = '"+mail+"', passwd = '"+passwd+"' WHERE pseudo = '"+cookie[0][5]+"'";
                     connexion.query(query);
                 }else{
