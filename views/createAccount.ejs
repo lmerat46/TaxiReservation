@@ -2,48 +2,48 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Taxi reservation</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta charset="UTF-8">
+  <title>Taxi reservation</title>
+  <link rel="stylesheet" type="text/css" href="../public/css/style.css" />
 </head>
 
 <body>
-    <form method="POST" action="http://localhost:8080/createAccount">
-        Category:
-        <br>
-        <input type="radio" name="category" value="client">client
-        <br>
-        <input type="radio" name="category" value="driver">driver
-        <br>
-        <br> Lastname:
-        <br>
-        <input type="text" name="lastname">
-        <br> Firstname:
-        <br>
-        <input type="text" name="firstname">
-        <br> Birthday:
-        <br>
-        <input type="date" name="birthday">
-        <br> Mail:
-        <br>
-        <input type="email" name="mail">
-        <br> Phone number:
-        <br>
-        <input type="tel" name="phone">
-        <br>
-        <br> Pseudo:
-        <br>
-        <input type="text" name="pseudo">
-        <br> Password:
-        <br>
-        <input type="password" name="password">
-        <br>
-        <input type="submit" name="Submit">
-    </form>
+  <header><h1>Name</h1></header>
+  <form method="POST" action="http://localhost:8080/createAccount">
+    <div id="whatever">
+      <br>
+      <div id="radioButtons">
+      <label class="container">Client
+        <input type="radio" checked="checked" name="category" value="client">
+        <span class="checkmark"></span>
+      </label>
+      <label class="container">Driver
+        <input type="radio" checked="checked" name="category" value="driver">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+      <br>
+      <input type="text" name="lastname" placeholder="Last name">
+      <br>
+      <input type="text" name="firstname" placeholder="First name">
+      <br>
+      <input type="date" name="birthday" placeholder="birthday">
+      <br>
+      <input type="email" name="mail" placeholder="e-mail">
+      <br>
+      <input type="tel" name="phone" placeholder="phone number">
+      <br>
+      <input type="text" name="pseudo" placeholder="pseudo">
+      <br>
+      <input type="password" name="password" placeholder="password">
+      <br>
+    </div>
+    <input type="submit" name="Submit">
+  </form>
 </body>
 <footer>
-    <p>© 2018, LAURE MERAT</p>
-    <p>Paris Diderot</p>
+  <p>© 2018, LAURE MERAT</p>
+  <p>Paris Diderot</p>
 </footer>
 
 </html>
