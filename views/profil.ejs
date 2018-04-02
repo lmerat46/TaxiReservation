@@ -4,35 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Taxi reservation</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css" />
 </head>
 
 <body>
+  <header><h1>Name</h1>
+      <form method="post" action="http://localhost:8080/accueil">
+        <button value="disconnect" name="disconnect">Deconnexion</button>
+      </form>
+      <br>
+      <br>
+      <form method="post" action="http://localhost:8080/profil">
+        <button value="profil" name="driver">Profile</button>
+      </form>
+    </header>
     <form method="POST" action="http://localhost:8080/modify">
-        <br> Lastname:
         <br>
-        <input type="text" name="lastname" value=<%= data.lastname%>>
-        <br> Firstname:
+        <input type="text" name="lastname" placeholder="Last name" value=<%= data.lastname%>
         <br>
-        <input type="text" name="firstname" value=<%= data.firstname%>>
-        <br> Birthday:
+        <input type="text" name="firstname" placeholder="First name" value=<%= data.firstname%>
         <br>
-        <input type="date" name="birthday" value=<%= data.birthday%>>
-        <br> Mail:
+        <input type="date" name="birthday" value=<%= data.birthday%>
         <br>
-        <input type="email" name="mail" value=<%= data.mail%>>
-        <br> Phone number:
+        <input type="email" name="mail" placeholder="E-mail" value=<%= data.mail%>
         <br>
-        <input type="tel" name="phone" value=<%= data.phone%>>
-        <br> Password:
+        <input type="tel" name="phone" placeholder="Phone number" value=<%= data.phone%>
         <br>
-        <input type="password" name="password">
-        <br> Confirm password:
+        <input type="password" placeholder="Password" name="password">
         <br>
-        <input type="password" name="passwordConf">
+        <input type="password" name="passwordConf" placeholder="Confirm password">
         <br>
-        <input type="submit" value="cancel" name="submit">
-        <input type="submit" value="save" name="submit">
+        <input type="submit" value="Cancel" name="submit">
+        <input type="submit" value="Save" name="submit">
     </form>
 </body>
 <footer>

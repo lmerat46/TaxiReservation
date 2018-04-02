@@ -2,77 +2,80 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Taxi reservation</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+  <meta charset="UTF-8">
+  <title>Taxi reservation</title>
+  <link rel="stylesheet" type="text/css" href="../public/css/style.css"/>
 </head>
 
 <body>
-        <header>
-        <form method="post" action="http://localhost:8080/accueil">
-            <button value="disconnect" name="disconnect">deconnexion</button>
-        </form>
-        </header>
-        <h2>Bonjour <%= v_nom %></h2>
-        <form method="post" action="http://localhost:8080/profil">
-            <input type="submit" value="profil" name="driver">
-        </form>
-        <form method="post" action="http://localhost:8080/driverf">
-            Are you free?<br>
-            <input type="submit" value="yes" name="choice">
-            <input type="submit" value="no" name="choice">
-        </form>
-        <table border="1" cellpadding="7" cellspacing="7">
-            <tr>
-                <th>Departure</th>
-                <th>Destination</th>
-                <th>Day</th>
-                <th>Hour</th>
-                <th>id_reservation</th>
-            </tr>
-            <% if(data.length){ 
-                for(var i = 0;i < data.length;i++) { %>
-            <tr>
-                <td><%=data[i].departure%></td>
-                <td><%=data[i].destination%></td>
-                <td><%=data[i].day%></td>
-                <td><%=data[i].hour%></td>
-                <td><form method="post" action="http://localhost:8080/driver"><input type="submit" name="resa" value="<%=data[i].id_reservation%>"></a></form></td>
-            </tr>
-            <% }
-            }else{ %>
-                <tr>
-                    <td colspan="5">No data</td>
-                </tr>
-            <% } %>
+  <header><h1>Name</h1>
+      <form method="post" action="http://localhost:8080/accueil">
+        <button value="disconnect" name="disconnect">Deconnexion</button>
+      </form>
+      <br>
+      <br>
+      <form method="post" action="http://localhost:8080/profil">
+        <button value="profil" name="driver">Profile</button>
+      </form>
+    </header>
+    <h2>Bonjour <%= v_nom %></h2>
+    <form method="post" action="http://localhost:8080/driverf">
+      Are you free?<br>
+      <input class="Availability" type="submit" value="yes" name="choice">
+      <input class="Availability" type="submit" value="no" name="choice">
+    </form>
+    <h3>Rides to do </h3>
+    <table border="1" cellpadding="7" cellspacing="7">
+      <tr>
+        <th>Departure</th>
+        <th>Destination</th>
+        <th>Day</th>
+        <th>Hour</th>
+        <th>Ride id</th>
+      </tr>
+      <% if(data.length){
+        for(var i = 0;i < data.length;i++) { %>
+          <tr>
+            <td><%=data[i].departure%></td>
+            <td><%=data[i].destination%></td>
+            <td><%=data[i].day%></td>
+            <td><%=data[i].hour%></td>
+            <td><form method="post" action="http://localhost:8080/driver"><input type="submit" name="resa" value="<%=data[i].id_reservation%>"></a></form></td>
+          </tr>
+          <% }
+        }else{ %>
+          <tr>
+            <td colspan="5">No data</td>
+          </tr>
+          <% } %>
         </table>
-        <h3>Reservation done</h3>
-        <table border="1" cellpadding="10" cellspacing="5">
-            <tr>
-                <th>Departure</th>
-                <th>Destination</th>
-                <th>Day</th>
-                <th>Hour</th>
-            </tr>
-            <% if(data2.length){ 
-                for(var i = 0;i < data2.length;i++) { %>
-                <tr>
+        <h3>Rides done</h3>
+        <table id="ridesDone" border="1" cellpadding="10" cellspacing="5">
+          <tr>
+            <th>Departure</th>
+            <th>Destination</th>
+            <th>Day</th>
+            <th>Hour</th>
+          </tr>
+          <% if(data2.length){
+            for(var i = 0;i < data2.length;i++) { %>
+              <tr>
                 <td><%=data2[i].departure%></td>
                 <td><%=data2[i].destination%></td>
                 <td><%=data2[i].day%></td>
                 <td><%=data2[i].hour%></td>
-            </tr>
-            <% }
+              </tr>
+              <% }
             }else{ %>
-                <tr>
-                    <td colspan="5">No data</td>
-                </tr>
-            <% } %>
-        </table>
-</body>
-<footer>
-    <p>© 2018, LAURE MERAT</p>
-    <p>Paris Diderot</p>
-</footer>
+              <tr>
+                <td colspan="5">No data</td>
+              </tr>
+              <% } %>
+            </table>
+          </body>
+          <footer>
+            <p>© 2018, LAURE MERAT</p>
+            <p>Paris Diderot</p>
+          </footer>
 
-</html>
+          </html>
