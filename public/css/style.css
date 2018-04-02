@@ -36,7 +36,7 @@ footer{
   padding: 5px 0px;
   margin-top: 200px;
   bottom : 0;
-  position: absolute;
+  position: relative;
 }
 
 footer p {
@@ -61,11 +61,11 @@ input {
   box-sizing: border-box;
   font: 25px sans-serif;
   text-align: center;
+  outline: none;
 }
 
 input:focus {
   border: 0;
-  outline: none;
   border-bottom: 4px solid #C5D3E5;
 }
 
@@ -81,12 +81,13 @@ input[type=submit] {
   cursor: pointer;
   transition-duration: 0.4s;
   box-shadow: none;
+  outline: none;
 }
 
 input[type=submit]:hover {
   background-color: #C5D3E5;
   color: #312F2F;
-  box-shadow: none
+  box-shadow: none;
 }
 
 #connect {
@@ -95,4 +96,65 @@ input[type=submit]:hover {
   padding-top: 2%;
   padding-bottom: 4%;
   font : 20px sans-serif;
+}
+
+#radioButtons {
+  display: inline-block;
+  padding-left: 50%;
+  font : 50px sans-serif;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 40px;
+  user-select: none;
+  padding-bottom: 10%;
+  padding-right: 5%;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  background-color: #C5D3E5;
+  border-radius: 50%;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #2D61A1;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #312F2F;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+ 	top: 10px;
+	left: 10px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #ECECEC;
 }
