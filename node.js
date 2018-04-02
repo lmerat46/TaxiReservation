@@ -196,7 +196,7 @@ serv.post('/driverf', function(req, res){
     connexion.query("SELECT *FROM reservation WHERE finish = '"+0+"'",function(err,rows){
         if(err) throw err;
         else{
-            connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie+"')",function(err1,rows1){
+            connexion.query("SELECT*FROM reservation WHERE finish = '"+1+"' and id_driver = (SELECT id_driver FROM driver WHERE pseudo = '"+cookie[0][5]+"')",function(err1,rows1){
                 if(err1) throw err1;
                 else res.render(__dirname+'/views/driver.ejs', {v_nom : cookie[0][5], data: rows, data2: rows1});
             });
@@ -253,11 +253,15 @@ serv.post('/driver', function(req,res){
 });
 
 /**
- * display the profil
+ * display the profile
  */
 serv.post('/profil', function(req,res){
     var client = req.body.client;
     var driver = req.body.driver;
+    console.log(client);
+    console.log(driver);
+    console.log(cookie);
+    console.log(cookie[0][5]);
     if(client == undefined) var query = "SELECT*FROM driver WHERE pseudo = '"+cookie[0][5]+"'";
     else var query = "SELECT*FROM client WHERE pseudo = '"+cookie[0][5]+"'";
     connexion.query(query,function(err,rows){
