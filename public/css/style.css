@@ -70,7 +70,7 @@ input:focus {
   border-bottom: 4px solid #C5D3E5;
 }
 
-input[type=submit]:not(.headerButton):not(.Availability) {
+input[type=submit]:not(.headerButton):not(.Availability):not(.chooseRide) {
   display: block;
   text-align: center;
   background-color: #312F2F;
@@ -138,7 +138,7 @@ button {
 }
 
 table {
-  margin-left: 17%;
+  margin-left: 25%;
   font : 20px sans-serif;
   border-collapse: collapse;
   width: 50%;
