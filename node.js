@@ -6,7 +6,6 @@ var m = require('fs');
 var mysql = require('mysql');
 var express = require('express');
 var body = require('body-parser');
-var session = ('cookie-session');
 
 var serv = express();
 
@@ -38,7 +37,6 @@ connexion.connect();
  * affiche home page
  */
 serv.get('/',function(req, res) {
-    console.log(__dirname);
     m.readFile(__dirname+'/views/home.ejs',function(erreur,donnees){
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(donnees);
@@ -73,6 +71,9 @@ serv.post('/createAccount', function(req, res) {
         req.body.password,
     ]];
     cookie = data;
+    if(req.body.lastname == '' || req.body.firstname == '' || req.body.birthday == '' || req.body.mail == '' || req.body.phone == ''|| req.body.pseudo == '' || req.body.password == ''){
+        res.render(__dirname+'/views/createAccount.ejs');
+    }
     if(req.body.category == "driver"){
         var query="SELECT*FROM driver WHERE pseudo = '"+req.body.pseudo+"'";
         connexion.query(query,function(err,rows){
@@ -258,10 +259,6 @@ serv.post('/driver', function(req,res){
 serv.post('/profil', function(req,res){
     var client = req.body.client;
     var driver = req.body.driver;
-    console.log(client);
-    console.log(driver);
-    console.log(cookie);
-    console.log(cookie[0][5]);
     if(client == undefined) var query = "SELECT*FROM driver WHERE pseudo = '"+cookie[0][5]+"'";
     else var query = "SELECT*FROM client WHERE pseudo = '"+cookie[0][5]+"'";
     connexion.query(query,function(err,rows){
